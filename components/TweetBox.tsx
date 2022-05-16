@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react'
 import { Tweet, TweetBody } from '../typings'
 import { fetchTweets } from '../utils/fetchTweets'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 type TweetBoxProps = {
   setTweets: React.Dispatch<React.SetStateAction<Tweet[]>>
@@ -69,11 +70,20 @@ function TweetBox({ setTweets }: TweetBoxProps) {
 
   return (
     <div className="flex space-x-2 p-5">
-      <img
+      <div className="mt-4">
+        <Image
+          width="56px"
+          height="56px"
+          className="rounded-full object-cover"
+          src={session?.user?.image || 'https://links.papareact.com/gll'}
+          alt="profile image"
+        />
+      </div>
+      {/* <img
         className="mt-4 h-14 w-14 rounded-full object-cover"
         src={session?.user?.image || 'https://links.papareact.com/gll'}
         alt="profile image"
-      />
+      /> */}
       <div className="flex flex-1 items-center pl-2">
         <form action="" className="flex flex-1 flex-col">
           <input
@@ -126,10 +136,19 @@ function TweetBox({ setTweets }: TweetBoxProps) {
           </div>
 
           {image && (
-            <img
-              className="mt-10 h-40 w-full rounded-xl object-contain shadow-lg"
-              src={image}
-            />
+            <div className="mt-10">
+              <Image
+                height="160px"
+                width="400px"
+                src={image}
+                className="rounded-xl object-contain shadow-lg"
+                alt="Tweet image"
+              />
+            </div>
+            // <img
+            //   className="mt-10 h-40 w-full rounded-xl object-contain shadow-lg"
+            //   src={image}
+            // />
           )}
         </form>
       </div>

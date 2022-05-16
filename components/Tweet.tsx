@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import TimeAgo from 'react-timeago'
 import { Comment, CommentBody, Tweet } from '../typings'
 import {
@@ -10,6 +10,7 @@ import {
 import { fetchComments } from '../utils/fetchComments'
 import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 interface Props {
   tweet: Tweet
@@ -21,14 +22,14 @@ function Tweet({ tweet }: Props) {
   const [input, setInput] = useState<string>('')
   const { data: session } = useSession()
 
-  const refreshComments = async () => {
+  const refreshComments = useCallback(async () => {
     const comments: Comment[] = await fetchComments(tweet._id)
     setComments(comments)
-  }
+  }, [tweet._id])
 
   useEffect(() => {
     refreshComments()
-  }, [])
+  }, [refreshComments])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -60,11 +61,15 @@ function Tweet({ tweet }: Props) {
   return (
     <div className="flex flex-col space-x-3 border-y border-gray-100 p-5">
       <div className="flex space-x-3">
-        <img
-          className="h-10 w-10 rounded-full object-cover"
-          src={tweet.profileImg}
-          alt="profile image"
-        />
+        <div className="items-start">
+          <Image
+            width="40px"
+            height="40px"
+            src={tweet.profileImg}
+            alt="profile image"
+            className="rounded-full"
+          />
+        </div>
         <div className="">
           <div className="flex items-center space-x-1">
             <p className="mr-1 font-bold">{tweet.username}</p>
@@ -80,11 +85,20 @@ function Tweet({ tweet }: Props) {
           <p className="pt-1">{tweet.text}</p>
 
           {tweet.image && (
-            <img
-              className="m-5 ml-0 mb-1 max-h-60 rounded-lg object-cover shadow-sm"
-              src={tweet.image}
-              alt="tweet image"
-            />
+            <div className="m-5 ml-0 mb-1">
+              <Image
+                width="400px"
+                height="240px"
+                src={tweet.image}
+                alt="tweet image"
+                className="rounded-lg object-cover shadow-sm"
+              />
+              {/* <img
+                className="m-5 ml-0 mb-1 max-h-60 rounded-lg object-cover shadow-sm"
+                src={tweet.image}
+                alt="tweet image"
+              /> */}
+            </div>
           )}
         </div>
       </div>
@@ -132,11 +146,20 @@ function Tweet({ tweet }: Props) {
           {comments.map((comment) => (
             <div key={comment._id} className="relative flex space-x-2">
               <hr className="absolute left-5 top-10 h-8 border-x border-twitter/30" />
-              <img
+              <div>
+                <Image
+                  width="28px"
+                  height="28px"
+                  src={comment.profileImg}
+                  className="rounded-full"
+                  alt="profile image"
+                />
+              </div>
+              {/* <img
                 src={comment.profileImg}
                 className="mt-2 h-7 w-7 rounded-full object-cover"
                 alt="profile image"
-              />
+              /> */}
 
               <div className="">
                 <div className="flex items-center space-x-1">
