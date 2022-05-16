@@ -9,6 +9,7 @@ module.exports = {
       'media-exp1.licdn.com',
       'images.pexels.com',
       'localhost',
+      'twitter-clone-woad-mu.vercel.app',
     ],
   },
 }
