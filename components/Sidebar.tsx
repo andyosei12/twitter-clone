@@ -18,12 +18,18 @@ export default function Sidebar() {
 
   return (
     <div className="col-span-2 flex flex-col items-center px-4 md:items-start">
-      <img
-        src="https://links.papareact.com/drq"
-        alt="twitter icon"
-        className="m-3 h-10 w-10"
-      />
-
+      <div
+        style={{
+          margin: '0.75rem',
+        }}
+      >
+        <Image
+          width="40px"
+          height="40px"
+          src="https://links.papareact.com/drq"
+          alt="twitter icon"
+        />
+      </div>
       <SidebarRow Icon={HomeIcon} title="Home" />
       <SidebarRow Icon={HashtagIcon} title="Explore" />
       <SidebarRow Icon={BellIcon} title="Notifications" />
